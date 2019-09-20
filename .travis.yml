@@ -64,15 +64,37 @@ jobs:
       name: iOS 12.1
       env: DESTINATION="OS=12.1,name=iPhone X" SDK="$IOS_SDK"
 
-    - stage: lint
-      name: pod lint
-      script: bundle exec pod lib lint
-
-    - stage: carthage
+    - &pod-lint
+      stage: lint
       osx_image: xcode10.1
-      name: carthage
-      os: osx
+      env: SWIFT=4.2
+      script: bundle exec pod lib lint --fail-fast --swift-version=$SWIFT
+
+    - <<: *pod-lint
+      osx_image: xcode10.3
+      env: SWIFT=4.3
+
+    - <<: *pod-lint
+      osx_image: xcode10.3
+      env: SWIFT=5.0
+
+    - <<: *pod-lint
+      osx_image: xcode11
+      env: SWIFT=5.1
+
+    - &carthage
+      stage: carthage
+      osx_image: xcode10.1
+      name: Xcode 10.1
       script: carthage build --no-skip-current --configuration Release
+
+    - <<: *carthage
+      osx_image: xcode10.3
+      name: Xcode 10.3
+
+    - <<: *carthage
+      osx_image: xcode11
+      name: Xcode 11
 
 stages:
   - test
