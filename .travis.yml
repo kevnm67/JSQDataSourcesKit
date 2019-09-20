@@ -21,8 +21,8 @@ env:
    global:
    - PROJECT="JSQDataSourcesKit.xcodeproj"
    - SCHEME="JSQDataSourcesKit"
-   - IOS_SDK=iphonesimulator12.2
-   - TVOS_SDK=appletvsimulator12.2
+   - IOS_SDK=iphonesimulator12.4
+   - TVOS_SDK=appletvsimulator12.4
 
 before_install:
   - pip3 install proselint
